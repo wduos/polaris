@@ -1,0 +1,26 @@
+{
+  "name": "polaris",
+  "version": "1.0.0",
+  "description": "Whatsapp automation tool",
+  "homepage": "https://github.com/wduos/polaris#readme",
+  "bugs": {
+    "url": "https://github.com/wduos/polaris/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wduos/polaris.git"
+  },
+  "license": "MIT",
+  "author": "Wendel Duarte",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.3.1"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "^1.26.0"
+  }
+}
