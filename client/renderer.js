@@ -12,12 +12,8 @@ const fadeAndRemove = (element) => {
 
 // Initial connection to test both the user's connection and availability of the remote API
 const initRemoteConnection = () => {
-  const splashStatus = document.getElementById("splash-status");
-
   // temp
   setTimeout(() => {
-    splashStatus.innerHTML = "Conectado com sucesso!";
-
     fadeAndRemove(document.getElementById("splash"));
   }, 2000);
 };

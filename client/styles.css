@@ -47,18 +47,11 @@ body {
   }
 }
 
-@keyframes reveal {
-  to {
-    opacity: 1;
-  }
-}
-
 #splash {
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
@@ -72,12 +65,6 @@ body {
     margin-top: 5rem;
     opacity: 0;
     animation: slide-up 0.5s 0.3s ease-out forwards;
-  }
-
-  & #splash-status {
-    color: var(--light---);
-    opacity: 0;
-    animation: reveal 0.5s 0.8s ease-out forwards;
   }
 }
 
