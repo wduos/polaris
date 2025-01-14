@@ -1,21 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("node:path");
-
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 1280,
-    height: 720,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
-  });
-
-  win.loadFile("client/index.html");
-};
+const { Client } = require("whatsapp-web.js");
 
 app.whenReady().then(() => {
-  ipcMain.handle("ping", () => "pong");
-
   createWindow();
 
   // MacOS stuff
@@ -32,3 +19,29 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+const createWindow = () => {
+  const win = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+  });
+
+  win.loadFile("client/index.html");
+
+  ipcMain.handle("login-success", () => {
+    const client = new Client();
+
+    client.once("ready", () => {
+      console.log("Client ready!");
+    });
+
+    client.on("qr", (qr) => {
+      win.webContents.send("qr-code", qr);
+    });
+
+    client.initialize();
+  });
+};

@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld("versions", {
 });
 
 contextBridge.exposeInMainWorld("API", {
-  // insert logic here
+  loginSuccess: () => ipcRenderer.invoke("login-success"),
+  onQr: (callback) => ipcRenderer.on("qr-code", (_event, qr) => callback(qr)),
 });
