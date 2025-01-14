@@ -11,14 +11,27 @@
       content="default-src 'self'; script-src 'self'"
     />
     <title>Polaris</title>
+    <link rel="stylesheet" href="./assets/fonts/fonts.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <section id="splash">
       <img src="./assets/img/logo_polaris.png" alt="Logomarca da Polaris" />
-      <small id="splash-status"
-        >Texto de teste para status da conexão com API remota.</small
-      >
+      <small id="splash-status">Conectando com servidor remoto...</small>
+    </section>
+
+    <section id="login">
+      <div>
+        <form id="login-form" action="">
+          <small
+            >Insira o <span class="bold">Nome de Usuário</span> e
+            <span class="bold">Senha</span> para entrar no sistema</small
+          >
+          <input type="text" placeholder="Usuário" />
+          <input type="password" placeholder="Senha" />
+          <input type="submit" value="Entrar" />
+        </form>
+      </div>
     </section>
   </body>
   <script src="./renderer.js"></script>

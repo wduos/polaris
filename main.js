@@ -18,6 +18,7 @@ app.whenReady().then(() => {
 
   createWindow();
 
+  // MacOS stuff
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
@@ -25,6 +26,7 @@ app.whenReady().then(() => {
   });
 });
 
+// MacOS stuff
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
