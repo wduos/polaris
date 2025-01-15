@@ -12,15 +12,10 @@ const fadeAndRemove = (id) => {
   }, 1000);
 };
 
-// Initial connection to test both the user's connection and availability of the remote API
-const initRemoteConnection = () => {
-  // temp
-  setTimeout(() => {
-    fadeAndRemove("splash");
-  }, 1500);
-};
-
-initRemoteConnection();
+// animate splash's removal from DOM
+setTimeout(() => {
+  fadeAndRemove("splash");
+}, 1200);
 
 // Listens for login attempts in login-screen
 document.getElementById("login-form").addEventListener("submit", (e) => {
@@ -33,7 +28,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 
   setTimeout(() => {
     fadeAndRemove("login");
-  }, 1000);
+  }, 800);
 
   // tell the main process that the login was successful
   window.API.loginSuccess();
@@ -49,5 +44,17 @@ const qrGen = new QRCode(document.getElementById("qr-container"), {
 });
 
 window.API.onQr((qr) => {
+  const tempQrMsg = document.getElementById("qr-inner-msg");
+  tempQrMsg.style.opacity = 0;
+
   qrGen.makeCode(qr);
+});
+
+window.API.clientReady(() => {
+  setTimeout(() => {
+    qrGen.clear();
+
+    const tempQrMsg = document.getElementById("qr-inner-msg");
+    tempQrMsg.style.opacity = 1;
+  }, 2000);
 });

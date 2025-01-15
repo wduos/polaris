@@ -34,12 +34,12 @@ const createWindow = () => {
   ipcMain.handle("login-success", () => {
     const client = new Client();
 
-    client.once("ready", () => {
-      console.log("Client ready!");
-    });
-
     client.on("qr", (qr) => {
       win.webContents.send("qr-code", qr);
+    });
+
+    client.on("ready", () => {
+      win.webContents.send("client-ready");
     });
 
     client.initialize();
