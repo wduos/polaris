@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("node:path");
-const { Client } = require("whatsapp-web.js");
+const { Client, ClientInfo } = require("whatsapp-web.js");
 
 app.whenReady().then(() => {
   createWindow();
@@ -38,8 +38,22 @@ const createWindow = () => {
       win.webContents.send("qr-code", qr);
     });
 
-    client.on("ready", () => {
-      win.webContents.send("client-ready");
+    client.on("ready", async () => {
+      let user;
+      const contacts = await client.getContacts();
+
+      contacts.forEach((contact) => {
+        if (contact.isMe) {
+          if (contact.id.server === "c.us") {
+            user = {
+              name: contact.pushname,
+              phoneNumber: contact.number,
+            };
+          }
+        }
+      });
+
+      win.webContents.send("client-ready", user);
     });
 
     client.initialize();
