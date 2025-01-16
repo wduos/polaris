@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require("electron/main");
 const path = require("node:path");
-const { Client, ClientInfo } = require("whatsapp-web.js");
+const { Client } = require("whatsapp-web.js");
 
 app.whenReady().then(() => {
   createWindow();

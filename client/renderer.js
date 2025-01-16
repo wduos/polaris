@@ -90,20 +90,21 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 
 // listens for QR Codes
 window.API.onQr((qr) => {
+  const qrContainer = document.getElementById("qr-container");
   const tempQrMsg = document.getElementById("qr-inner-msg");
+
   tempQrMsg.style.opacity = 0;
+
+  if (qrContainer.classList.length === 0) {
+    qrContainer.classList.add("display-msgs");
+  }
 
   qrGen.makeCode(qr);
 });
 
 // listens for a successful connection to the client
 window.API.clientReady((user) => {
-  setTimeout(() => {
-    qrGen.clear();
-
-    const tempQrMsg = document.getElementById("qr-inner-msg");
-    tempQrMsg.style.opacity = 1;
-  }, 2000);
+  fadeAndRemove("qr");
 
   localStorage.setItem("user", JSON.stringify(user));
 
@@ -112,6 +113,15 @@ window.API.clientReady((user) => {
     body: "O Polaris conseguiu se conectar ao seu dispositivo.",
     type: "success",
   });
+
+  setTimeout(() => {
+    qrGen.clear();
+
+    const qrContainer = document.getElementById("qr-container");
+    const tempQrMsg = document.getElementById("qr-inner-msg");
+    tempQrMsg.style.opacity = 1;
+    qrContainer.classList.remove("display-msgs");
+  }, 2000);
 
   // console.log(JSON.parse(localStorage.getItem("user")));
 });

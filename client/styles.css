@@ -206,6 +206,29 @@ main {
     width: 100%;
     height: calc(100% - 4.5rem);
 
+    & .display-msgs::before {
+      content: "Com o dispositivo que deseja conectar, vá em Dispositivos Conectados e escaneie o QR Code abaixo.";
+      position: absolute;
+      top: -4rem;
+      left: 50%;
+      width: 200%;
+      text-align: center;
+      font-size: 1rem;
+      transform: translateX(-50%);
+    }
+
+    & .display-msgs::after {
+      content: "O tempo de conexão varia de acordo com seu dispositivo.";
+      position: absolute;
+      bottom: -2.25rem;
+      left: 50%;
+      width: 150%;
+      color: var(--light---);
+      text-align: center;
+      font-size: 0.75rem;
+      transform: translateX(-50%);
+    }
+
     & #qr-container {
       position: relative;
       width: 250px;
