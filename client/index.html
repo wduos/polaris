@@ -41,12 +41,25 @@
     </section>
 
     <main>
+      <div id="notifications-list">
+        <h3>ÚLTIMAS NOTIFICAÇÕES</h3>
+      </div>
+      <button type="button" id="menu-toggle-alt-btn"></button>
+
       <section id="content">
         <header>
           <img
             src="./assets/img/logo_p.png"
             alt="Logomarca da Polaris, somente o P"
           />
+          <div id="header-btns-container">
+            <button type="button" id="notifications-btn" class="no-focus">
+              <img src="./assets/icons/bell.svg" alt="ìcone de notificações" />
+            </button>
+            <button type="button" id="log-out-btn" class="no-focus">
+              <img src="./assets/icons/exit.svg" alt="ìcone de log out" />
+            </button>
+          </div>
         </header>
 
         <div id="qr">
@@ -59,6 +72,8 @@
           </div>
         </div>
       </section>
+
+      <aside></aside>
     </main>
   </body>
   <script src="./renderer.js"></script>

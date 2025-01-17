@@ -61,6 +61,24 @@ const qrGen = new QRCode(document.getElementById("qr-container"), {
   correctLevel: QRCode.CorrectLevel.H,
 });
 
+const toggleNotifications = () => {
+  const menuToggleAltBtn = document.getElementById("menu-toggle-alt-btn");
+  const notificationsListContainer =
+    document.getElementById("notifications-list");
+
+  if (notificationsAreHidden) {
+    notificationsListContainer.style.visibility = "visible";
+    notificationsAreHidden = false;
+
+    menuToggleAltBtn.style.visibility = "visible";
+  } else {
+    notificationsListContainer.style.visibility = "hidden";
+    notificationsAreHidden = true;
+
+    menuToggleAltBtn.style.visibility = "hidden";
+  }
+};
+
 // animate splash's removal from DOM
 setTimeout(() => {
   fadeAndRemove("splash");
@@ -104,9 +122,16 @@ window.API.onQr((qr) => {
 
 // listens for a successful connection to the client
 window.API.clientReady((user) => {
-  fadeAndRemove("qr");
+  const headerBtnsContainer = document.getElementById("header-btns-container");
+  const contentContainer = document.getElementById("content");
+  const asideContainer = document.querySelector("aside");
 
-  localStorage.setItem("user", JSON.stringify(user));
+  headerBtnsContainer.style.visibility = "visible";
+  headerBtnsContainer.style.opacity = 1;
+  contentContainer.style.width = "calc(100% - 320px)";
+  asideContainer.style.right = 0;
+
+  fadeAndRemove("qr");
 
   popUp({
     title: `${user.name} Conectado!`,
@@ -123,5 +148,17 @@ window.API.clientReady((user) => {
     qrContainer.classList.remove("display-msgs");
   }, 2000);
 
+  localStorage.setItem("user", JSON.stringify(user));
+
   // console.log(JSON.parse(localStorage.getItem("user")));
+});
+
+// toggle notifications visibility
+let notificationsAreHidden = true;
+document.getElementById("notifications-btn").addEventListener("click", () => {
+  toggleNotifications();
+});
+
+document.getElementById("menu-toggle-alt-btn").addEventListener("click", () => {
+  toggleNotifications();
 });

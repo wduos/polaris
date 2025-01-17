@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron/main");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron/main");
 const path = require("node:path");
 const { Client } = require("whatsapp-web.js");
 
@@ -28,6 +28,8 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
     },
   });
+
+  Menu.setApplicationMenu(null);
 
   win.loadFile("client/index.html");
 
