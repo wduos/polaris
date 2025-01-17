@@ -1,3 +1,5 @@
+const notifications = [];
+
 const popUp = ({ title, body, type = "success" }) => {
   let color;
 
@@ -37,6 +39,16 @@ const popUp = ({ title, body, type = "success" }) => {
       popUp.self.style.visibility = "hidden";
     }, 500);
   }, 4000);
+
+  if (notifications.length >= 3) {
+    notifications.shift();
+  }
+
+  notifications.push({
+    title: title,
+    body: body,
+    type: color,
+  });
 };
 
 const fadeAndRemove = (id) => {
@@ -53,15 +65,9 @@ const fadeAndRemove = (id) => {
   }, 1000);
 };
 
-const qrGen = new QRCode(document.getElementById("qr-container"), {
-  width: 202,
-  height: 202,
-  colorDark: "#2e2b2f",
-  colorLight: "#f7f1ff",
-  correctLevel: QRCode.CorrectLevel.H,
-});
-
 const toggleNotifications = () => {
+  updateNotificationList();
+
   const menuToggleAltBtn = document.getElementById("menu-toggle-alt-btn");
   const notificationsListContainer =
     document.getElementById("notifications-list");
@@ -78,6 +84,24 @@ const toggleNotifications = () => {
     menuToggleAltBtn.style.visibility = "hidden";
   }
 };
+
+const updateNotificationList = () => {
+  const notificationsDOM = document.getElementById("notifications");
+
+  notificationsDOM.innerHTML = "";
+
+  notifications.reverse().forEach((noti) => {
+    notificationsDOM.innerHTML += `<div class="noti"><h4 class="noti-title">${noti.title}</h4><small class="noti-body">${noti.body}</small><div class="noti-type ${noti.type}"></div></div>`;
+  });
+};
+
+const qrGen = new QRCode(document.getElementById("qr-container"), {
+  width: 202,
+  height: 202,
+  colorDark: "#2e2b2f",
+  colorLight: "#f7f1ff",
+  correctLevel: QRCode.CorrectLevel.H,
+});
 
 // animate splash's removal from DOM
 setTimeout(() => {
@@ -98,7 +122,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
   }, 800);
 
   popUp({
-    title: "Login Efetuado!",
+    title: "Login Efetuado",
     body: "Por favor, tenha seu dispositivo em mãos para a próxima etapa.",
   });
 

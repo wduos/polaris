@@ -25,6 +25,7 @@
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+  user-select: none;
 }
 
 body {
@@ -202,6 +203,51 @@ main {
       text-align: center;
       font-size: 0.75rem;
       color: var(--light---);
+    }
+
+    & #notifications {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      & .noti {
+        position: relative;
+        height: 93px;
+        padding: 1rem;
+        border-top: solid 1px var(--light------);
+
+        & .noti-title {
+          text-align: left;
+          margin-bottom: 0.2rem;
+          font-size: 0.88rem;
+          font-weight: 600;
+        }
+
+        & .noti-body {
+          color: var(--light---);
+        }
+
+        & .noti-type {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          width: 0.5rem;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+        }
+
+        & .green {
+          background-color: var(--pop-up-green);
+        }
+
+        & .yellow {
+          background-color: var(--pop-up-yellow);
+        }
+
+        & .red {
+          background-color: var(--pop-up-red);
+        }
+      }
     }
   }
 
