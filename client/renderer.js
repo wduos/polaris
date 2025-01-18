@@ -1,5 +1,18 @@
 const notifications = [];
 
+const qrGen = new QRCode(document.getElementById("qr-container"), {
+  width: 202,
+  height: 202,
+  colorDark: "#2e2b2f",
+  colorLight: "#f7f1ff",
+  correctLevel: QRCode.CorrectLevel.H,
+});
+
+const headerMenus = {
+  notificationsAreHidden: true,
+  logOutMenuIsHidden: true,
+};
+
 const popUp = ({ title, body, type = "success" }) => {
   let color;
 
@@ -49,6 +62,8 @@ const popUp = ({ title, body, type = "success" }) => {
     body: body,
     type: color,
   });
+
+  updateNotificationList();
 };
 
 const fadeAndRemove = (id) => {
@@ -74,12 +89,12 @@ const toggleNotifications = () => {
 
   if (notificationsAreHidden) {
     notificationsListContainer.style.visibility = "visible";
-    notificationsAreHidden = false;
+    headerMenus.notificationsAreHidden = false;
 
     menuToggleAltBtn.style.visibility = "visible";
   } else {
     notificationsListContainer.style.visibility = "hidden";
-    notificationsAreHidden = true;
+    headerMenus.notificationsAreHidden = true;
 
     menuToggleAltBtn.style.visibility = "hidden";
   }
@@ -95,13 +110,44 @@ const updateNotificationList = () => {
   });
 };
 
-const qrGen = new QRCode(document.getElementById("qr-container"), {
-  width: 202,
-  height: 202,
-  colorDark: "#2e2b2f",
-  colorLight: "#f7f1ff",
-  correctLevel: QRCode.CorrectLevel.H,
-});
+const toggleLogOutMenu = () => {
+  const menuToggleAltBtn = document.getElementById("menu-toggle-alt-btn");
+  const logOutMenu = document.getElementById("log-out-menu");
+
+  if (headerMenus.logOutMenuIsHidden) {
+    logOutMenu.style.visibility = "visible";
+    headerMenus.logOutMenuIsHidden = false;
+
+    menuToggleAltBtn.style.visibility = "visible";
+  } else {
+    logOutMenu.style.visibility = "hidden";
+    headerMenus.logOutMenuIsHidden = true;
+
+    menuToggleAltBtn.style.visibility = "hidden";
+  }
+};
+
+const formatPhoneNumber = (phoneNumber) => {
+  // Ensure the number is a string and has no non-numeric characters
+  const cleanNumber = phoneNumber.replace(/\D/g, "");
+
+  // First, ensure that the input is the right length (i.e., 11 or 12 digits after the country code)
+  if (cleanNumber.length === 13) {
+    // Format with the extra '9' in the phone number prefix (5 digits)
+    return cleanNumber.replace(
+      /(\d{2})(\d{2})(\d{5})(\d{4})/,
+      "+55 ($2) $3-$4"
+    );
+  } else if (cleanNumber.length === 12) {
+    // Format with the regular phone number prefix (4 digits)
+    return cleanNumber.replace(
+      /(\d{2})(\d{2})(\d{4})(\d{4})/,
+      "+55 ($2) $3-$4"
+    );
+  }
+
+  return formattedNumber;
+};
 
 // animate splash's removal from DOM
 setTimeout(() => {
@@ -149,6 +195,9 @@ window.API.clientReady((user) => {
   const headerBtnsContainer = document.getElementById("header-btns-container");
   const contentContainer = document.getElementById("content");
   const asideContainer = document.querySelector("aside");
+  // Log Out menu elements
+  const userDeviceName = document.getElementById("user-device-name");
+  const userNumber = document.getElementById("user-number");
 
   headerBtnsContainer.style.visibility = "visible";
   headerBtnsContainer.style.opacity = 1;
@@ -172,17 +221,28 @@ window.API.clientReady((user) => {
     qrContainer.classList.remove("display-msgs");
   }, 2000);
 
-  localStorage.setItem("user", JSON.stringify(user));
+  userDeviceName.innerHTML = user.name;
+  userNumber.innerHTML = formatPhoneNumber(user.phoneNumber);
 
+  // localStorage.setItem("user", JSON.stringify(user));
   // console.log(JSON.parse(localStorage.getItem("user")));
 });
 
-// toggle notifications visibility
-let notificationsAreHidden = true;
+// toggle header menus' visibility
 document.getElementById("notifications-btn").addEventListener("click", () => {
   toggleNotifications();
 });
 
+document.getElementById("log-out-btn").addEventListener("click", () => {
+  toggleLogOutMenu();
+});
+
 document.getElementById("menu-toggle-alt-btn").addEventListener("click", () => {
-  toggleNotifications();
+  if (!headerMenus.notificationsAreHidden) {
+    toggleNotifications();
+  }
+
+  if (!headerMenus.logOutMenuIsHidden) {
+    toggleLogOutMenu();
+  }
 });

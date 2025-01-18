@@ -263,6 +263,7 @@ main {
     border-radius: 0.5rem;
     background-color: var(--dark---);
     z-index: 12;
+    visibility: hidden;
 
     & div {
       display: flex;
@@ -275,12 +276,18 @@ main {
         margin-bottom: 1rem;
       }
 
+      & h4 {
+        color: var(--light----);
+        font-size: 0.75rem;
+      }
+
       & #user-name {
         font-weight: 600;
         font-size: 1rem;
       }
 
       & #user-device-name {
+        color: var(--light---);
         font-size: 0.75rem;
       }
 
@@ -292,6 +299,8 @@ main {
     }
 
     & button {
+      display: block;
+      width: 100%;
       padding: 1rem;
       border: none;
       border-top: solid 1px var(--light------);
