@@ -87,7 +87,7 @@ const toggleNotifications = () => {
   const notificationsListContainer =
     document.getElementById("notifications-list");
 
-  if (notificationsAreHidden) {
+  if (headerMenus.notificationsAreHidden) {
     notificationsListContainer.style.visibility = "visible";
     headerMenus.notificationsAreHidden = false;
 
@@ -149,31 +149,68 @@ const formatPhoneNumber = (phoneNumber) => {
   return formattedNumber;
 };
 
+const toggleAwaiting = ({ element, state = "on" }) => {
+  if (state === "on") {
+    element.classList.add("awaiting");
+    element.disabled = true;
+  } else if (state === "off") {
+    element.classList.remove("awaiting");
+    element.disabled = false;
+  }
+};
+
 // animate splash's removal from DOM
 setTimeout(() => {
   fadeAndRemove("splash");
 }, 1200);
 
 // Listens for login attempts in login-screen
-document.getElementById("login-form").addEventListener("submit", (e) => {
+document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // temp
-  const loginSubmitBtn = document.getElementById("login-submit-btn");
-  loginSubmitBtn.disabled = true;
-  loginSubmitBtn.style.backgroundColor = "var(--light----)";
+  const credentials = {
+    username: document.getElementById("login-username-input").value,
+    password: document.getElementById("login-password-input").value,
+  };
 
-  setTimeout(() => {
-    fadeAndRemove("login");
-  }, 800);
-
-  popUp({
-    title: "Login Efetuado",
-    body: "Por favor, tenha seu dispositivo em mãos para a próxima etapa.",
+  toggleAwaiting({
+    element: document.getElementById("login-submit-btn"),
   });
 
-  // tell the main process that the login was successful
-  window.API.loginSuccess();
+  let response = await window.API.loginAttempt(credentials);
+
+  if (response.status === 404 || response.status === 400) {
+    popUp({
+      title: "Erro de Login",
+      body: "Usuário ou senha inválidos, por favor verifique os dados e tente novamente.",
+      type: "error",
+    });
+  }
+
+  if (response.status === 401) {
+    popUp({
+      title: "Sem Permissão",
+      body: "Você não tem permissão de acesso ao Polaris. Por favor entre em contato com um admnistrador.",
+      type: "warning",
+    });
+  }
+
+  if (response.status === 200) {
+    localStorage.setItem("username", credentials.username);
+    localStorage.setItem("userToken", response.token);
+
+    popUp({
+      title: "Login Efetuado",
+      body: "Por favor, tenha seu dispositivo em mãos para a próxima etapa.",
+    });
+
+    fadeAndRemove("login");
+  }
+
+  toggleAwaiting({
+    element: document.getElementById("login-submit-btn"),
+    state: "off",
+  });
 });
 
 // listens for QR Codes
@@ -196,6 +233,7 @@ window.API.clientReady((user) => {
   const contentContainer = document.getElementById("content");
   const asideContainer = document.querySelector("aside");
   // Log Out menu elements
+  const userName = document.getElementById("user-name");
   const userDeviceName = document.getElementById("user-device-name");
   const userNumber = document.getElementById("user-number");
 
@@ -221,11 +259,9 @@ window.API.clientReady((user) => {
     qrContainer.classList.remove("display-msgs");
   }, 2000);
 
+  userName.innerHTML = localStorage.getItem("username");
   userDeviceName.innerHTML = user.name;
   userNumber.innerHTML = formatPhoneNumber(user.phoneNumber);
-
-  // localStorage.setItem("user", JSON.stringify(user));
-  // console.log(JSON.parse(localStorage.getItem("user")));
 });
 
 // toggle header menus' visibility
