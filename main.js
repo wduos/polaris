@@ -1,6 +1,10 @@
 const { app, BrowserWindow, ipcMain, Menu } = require("electron/main");
 const path = require("node:path");
 const { Client } = require("whatsapp-web.js");
+const axios = require("axios");
+require("dotenv").config();
+
+const API_URL = window.API.API_URL;
 
 app.whenReady().then(() => {
   createWindow();
@@ -29,7 +33,7 @@ const createWindow = () => {
     },
   });
 
-  Menu.setApplicationMenu(null);
+  // Menu.setApplicationMenu(null);
 
   win.loadFile("client/index.html");
 
