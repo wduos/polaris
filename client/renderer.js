@@ -177,7 +177,7 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     element: document.getElementById("login-submit-btn"),
   });
 
-  let response = await window.API.loginAttempt(credentials);
+  const response = await window.API.loginAttempt(credentials);
 
   if (response.status === 404 || response.status === 400) {
     popUp({
@@ -281,4 +281,26 @@ document.getElementById("menu-toggle-alt-btn").addEventListener("click", () => {
   if (!headerMenus.logOutMenuIsHidden) {
     toggleLogOutMenu();
   }
+});
+
+// contact list request
+document
+  .getElementById("update-list-btn")
+  .addEventListener("click", async () => {
+    const importMethod = document.getElementById("update-list-select").value;
+
+    toggleAwaiting({
+      element: document.getElementById("update-list-btn"),
+    });
+
+    window.API.contactListRequest(importMethod);
+  });
+
+window.API.contactList((contactList) => {
+  console.log(contactList);
+
+  toggleAwaiting({
+    element: document.getElementById("update-list-btn"),
+    state: "off",
+  });
 });

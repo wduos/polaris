@@ -89,7 +89,37 @@
         </div>
       </section>
 
-      <aside></aside>
+      <aside>
+        <div id="search-container">
+          <img
+            src="./assets/icons/member-search.svg"
+            alt="ícone de pesquisa de pessoa"
+          />
+          <input type="text" placeholder="Pesquisar Remetentes" />
+          <div>
+            <button type="button">Selecionar todos</button>
+            <button type="button">Desselecionar todos</button>
+          </div>
+        </div>
+        <div id="contact-list-container">
+          <div id="contact-list-placeholder">
+            <img src="./assets/icons/members.svg" alt="ícone de membros" />
+            <h4>Remetentes</h4>
+            <h5>Clique no botão abaixo para carregar a lista de remetentes.</h5>
+          </div>
+        </div>
+        <div id="update-list-container">
+          <img
+            src="./assets/icons/caret-down.svg"
+            alt="ícone de seta para baixo"
+          />
+          <select id="update-list-select">
+            <option value="contacts">Importar Contatos</option>
+            <option value="chats">Importar por Chats</option>
+          </select>
+          <button type="button" id="update-list-btn">Atualizar Lista</button>
+        </div>
+      </aside>
     </main>
   </body>
   <script src="./renderer.js"></script>
