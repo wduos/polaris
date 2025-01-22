@@ -405,6 +405,7 @@ main {
         align-items: center;
         gap: 0.2rem;
         width: 100%;
+        visibility: visible;
 
         & h4 {
           text-align: center;

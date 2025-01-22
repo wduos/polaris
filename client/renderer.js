@@ -297,6 +297,20 @@ document
   });
 
 window.API.contactList((contactList) => {
+  const searchContainer = document.getElementById("search-container");
+
+  if (searchContainer.style.visibility !== "visible") {
+    searchContainer.style.visibility = "visible";
+  }
+
+  const contactListPlaceholder = document.getElementById(
+    "contact-list-placeholder"
+  );
+
+  if (contactListPlaceholder.style.visibility !== "hidden") {
+    contactListPlaceholder.style.visibility = "hidden";
+  }
+
   console.log(contactList);
 
   toggleAwaiting({
