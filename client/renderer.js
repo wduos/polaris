@@ -105,9 +105,9 @@ const updateNotificationList = () => {
 
   notificationsDOM.innerHTML = "";
 
-  notifications.reverse().forEach((noti) => {
-    notificationsDOM.innerHTML += `<div class="noti"><h4 class="noti-title">${noti.title}</h4><small class="noti-body">${noti.body}</small><div class="noti-type ${noti.type}"></div></div>`;
-  });
+  for (let i = notifications.length - 1; i >= 0; i--) {
+    notificationsDOM.innerHTML += `<div class="noti"><h4 class="noti-title">${notifications[i].title}</h4><small class="noti-body">${notifications[i].body}</small><div class="noti-type ${notifications[i].type}"></div></div>`;
+  }
 };
 
 const toggleLogOutMenu = () => {
@@ -245,7 +245,7 @@ window.API.clientReady((user) => {
   fadeAndRemove("qr");
 
   popUp({
-    title: `${user.name} Conectado!`,
+    title: `${user.name} conectou-se`,
     body: "O Polaris conseguiu se conectar ao seu dispositivo.",
     type: "success",
   });
@@ -312,6 +312,11 @@ window.API.contactList((contactList) => {
   }
 
   console.log(contactList);
+
+  popUp({
+    title: "Lista Recebida",
+    body: "Sua lista de remetentes foi atualizada com sucesso.",
+  });
 
   toggleAwaiting({
     element: document.getElementById("update-list-btn"),
