@@ -159,6 +159,20 @@ const toggleAwaiting = ({ element, state = "on" }) => {
   }
 };
 
+const sortByName = (array) => {
+  const newArray = array.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
+
+  return newArray;
+};
+
 // animate splash's removal from DOM
 setTimeout(() => {
   fadeAndRemove("splash");
@@ -311,7 +325,7 @@ window.API.contactList((contactList) => {
     contactListPlaceholder.style.visibility = "hidden";
   }
 
-  console.log(contactList);
+  console.log(sortByName(contactList));
 
   popUp({
     title: "Lista Recebida",
