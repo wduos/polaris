@@ -173,10 +173,20 @@ const sortByName = (array) => {
   return newArray;
 };
 
-// animate splash's removal from DOM
-setTimeout(() => {
-  fadeAndRemove("splash");
-}, 1200);
+// remember me checkbox
+let isRemberMeSelected = false;
+const toggleRememberMeDiv = document.getElementById("toggle-remember-me");
+const fakeCheckbox = document.getElementById("fake-checkbox");
+
+toggleRememberMeDiv.addEventListener("click", () => {
+  if (!isRemberMeSelected) {
+    fakeCheckbox.classList.add("checked");
+    isRemberMeSelected = true;
+  } else {
+    fakeCheckbox.classList.remove("checked");
+    isRemberMeSelected = false;
+  }
+});
 
 // Listens for login attempts in login-screen
 document.getElementById("login-form").addEventListener("submit", async (e) => {
@@ -191,7 +201,10 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     element: document.getElementById("login-submit-btn"),
   });
 
-  const response = await window.API.loginAttempt(credentials);
+  const response = await window.API.loginAttempt(
+    credentials,
+    isRemberMeSelected
+  );
 
   if (response.status === 404 || response.status === 400) {
     popUp({

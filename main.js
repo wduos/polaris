@@ -39,7 +39,7 @@ const createWindow = () => {
 
   win.loadFile("client/index.html");
 
-  ipcMain.handle("login-attempt", async (event, data) => {
+  ipcMain.handle("login-attempt", async (event, data, rememberMe) => {
     const response = await axios
       .post(`${API_URL}/login`, data)
       .then((response) => {
@@ -56,6 +56,7 @@ const createWindow = () => {
       });
 
     if (response.status === 200) {
+      rememberUserCredentials(data);
       initClient(win);
     }
 
@@ -151,4 +152,8 @@ const initClient = (win) => {
   });
 
   client.initialize();
+};
+
+const rememberUserCredentials = (userInfo) => {
+  console.log(userInfo);
 };

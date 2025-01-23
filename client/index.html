@@ -22,26 +22,21 @@
       <div id="pop-up-type"></div>
     </div>
 
-    <section id="splash">
-      <img src="./assets/img/logo_polaris.png" alt="Logomarca da Polaris" />
-    </section>
-
     <section id="login">
-      <div>
-        <form id="login-form" action="">
-          <small
-            >Insira o <span class="bold">Nome de Usuário</span> e
-            <span class="bold">Senha</span> para entrar no sistema</small
-          >
-          <input type="text" placeholder="Usuário" id="login-username-input" />
-          <input
-            type="password"
-            placeholder="Senha"
-            id="login-password-input"
-          />
-          <input type="submit" value="Entrar" id="login-submit-btn" />
-        </form>
-      </div>
+      <form id="login-form" action="">
+        <img src="./assets/img/logo_polaris.png" alt="Logomarca da Polaris" />
+        <small
+          >Insira <span class="bold">Usuário</span> e
+          <span class="bold">Senha</span> para entrar no sistema</small
+        >
+        <input type="text" placeholder="Usuário" id="login-username-input" />
+        <input type="password" placeholder="Senha" id="login-password-input" />
+        <div id="toggle-remember-me">
+          <span id="fake-checkbox"></span>
+          <label for="save-credentials">Guardar dados de Log In</label>
+        </div>
+        <input type="submit" value="Entrar" id="login-submit-btn" />
+      </form>
     </section>
 
     <main>

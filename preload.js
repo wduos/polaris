@@ -1,7 +1,8 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("API", {
-  loginAttempt: (data) => ipcRenderer.invoke("login-attempt", data),
+  loginAttempt: (data, rememberMe) =>
+    ipcRenderer.invoke("login-attempt", data, rememberMe),
   contactListRequest: (importMethod) =>
     ipcRenderer.send("contact-list-request", importMethod),
   onQr: (callback) => ipcRenderer.on("qr-code", (_event, qr) => callback(qr)),
