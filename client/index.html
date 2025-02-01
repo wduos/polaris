@@ -25,7 +25,7 @@
     <section id="login">
       <form id="login-form" action="">
         <img src="./assets/img/logo_polaris.png" alt="Logomarca da Polaris" />
-        <small class="bold">LOG IN</small>
+        <small>LOG IN</small>
         <input type="text" placeholder="Usuário" id="login-username-input" />
         <input type="password" placeholder="Senha" id="login-password-input" />
         <!-- <div id="toggle-remember-me">
@@ -87,8 +87,6 @@
             <h5>Cliqe aqui para começar.</h5>
           </button>
 
-          <div id="msg-compose-contacts"></div>
-          <div id="msg-compose-img"></div>
           <div id="msg-compose-body">
             <textarea
               id="msg-compose-textarea"
@@ -98,6 +96,41 @@
             <button id="msg-compose-body-continue-btn" type="button">
               Continuar
             </button>
+          </div>
+          <div id="msg-compose-img">
+            <img
+              src="./assets/icons/add-image.svg"
+              alt="ícone de adição de imagem"
+            />
+            <h4>Adicionar Imagem</h4>
+            <h5>
+              Inclua uma imagem à sua mensagem apertando o botão abaixo, ou pule
+              se preferir.
+            </h5>
+            <div>
+              <button id="skip-img-btn" type="button">Pular</button>
+              <label for="select-img-btn">Selecionar</label>
+              <input
+                id="select-img-btn"
+                type="file"
+                accept="image/jpeg, image/jpg, image/png"
+              />
+            </div>
+            <button id="back-to-msg-body-btn" type="button">Voltar</button>
+          </div>
+          <div id="msg-confirm-contacts">
+            <div>
+              <img
+                src="./assets/icons/triangle-warning.svg"
+                alt="ícone de aviso"
+              />
+              <h4>Atenção</h4>
+              <h5>
+                Confirme a lista de quem receberá sua mensagem na lista de
+                remententes ao lado!
+              </h5>
+            </div>
+            <button id="back-to-msg-img-btn" type="button">Voltar</button>
           </div>
         </div>
       </section>

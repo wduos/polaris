@@ -129,32 +129,27 @@ const createWindow = () => {
 const initClient = (win) => {
   client = new Client();
 
-  // TEMP
-  client.once("qr", () => {
-    win.webContents.send("client-ready", { name: "temp", phoneNumber: "temp" });
+  client.on("qr", (qr) => {
+    win.webContents.send("qr-code", qr);
   });
 
-  // client.on("qr", (qr) => {
-  //   win.webContents.send("qr-code", qr);
-  // });
+  client.on("ready", async () => {
+    let user;
+    const contacts = await client.getContacts();
 
-  // client.on("ready", async () => {
-  //   let user;
-  //   const contacts = await client.getContacts();
+    contacts.forEach((contact) => {
+      if (contact.isMe) {
+        if (contact.id.server === "c.us") {
+          user = {
+            name: contact.pushname,
+            phoneNumber: contact.number,
+          };
+        }
+      }
+    });
 
-  //   contacts.forEach((contact) => {
-  //     if (contact.isMe) {
-  //       if (contact.id.server === "c.us") {
-  //         user = {
-  //           name: contact.pushname,
-  //           phoneNumber: contact.number,
-  //         };
-  //       }
-  //     }
-  //   });
-
-  //   win.webContents.send("client-ready", user);
-  // });
+    win.webContents.send("client-ready", user);
+  });
 
   client.initialize();
 };

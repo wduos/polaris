@@ -189,12 +189,6 @@ const sortByName = (array) => {
 // });
 
 // Listens for login attempts in login-screen
-
-// TEMP
-document.getElementById("login-username-input").value = "wduarte";
-document.getElementById("login-password-input").value = "p!ckP0ck37";
-//TEMP
-
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -332,10 +326,92 @@ window.API.clientReady((user) => {
 // new message composition
 const msgComposeBtn = document.getElementById("msg-compose-btn");
 const msgComposeBody = document.getElementById("msg-compose-body");
+const msgComposeTextarea = document.getElementById("msg-compose-textarea");
+const msgComposeBodyContinueBtn = document.getElementById(
+  "msg-compose-body-continue-btn"
+);
+const msgComposeImg = document.getElementById("msg-compose-img");
+const skipImgBtn = document.getElementById("skip-img-btn");
+const selectImgBtn = document.getElementById("select-img-btn");
+const backToMsgBodyBtn = document.getElementById("back-to-msg-body-btn");
+const msgConfirmContacts = document.getElementById("msg-confirm-contacts");
+const backToMsgImgBtn = document.getElementById("back-to-msg-img-btn");
+
+const message = {};
 
 msgComposeBtn.addEventListener("click", () => {
   msgComposeBtn.style.display = "none";
   msgComposeBody.style.display = "flex";
+});
+
+msgComposeBodyContinueBtn.addEventListener("click", () => {
+  if (!msgComposeTextarea.value) {
+    popUp({
+      title: "Mensagem Vazia",
+      body: "Você enviará uma mensagem sem nenhum texto, clique em Voltar se desejar corrigir isso.",
+      type: "warning",
+    });
+  }
+
+  message.body = msgComposeTextarea.value
+    ? msgComposeTextarea.value
+    : undefined;
+
+  msgComposeBody.style.display = "none";
+  msgComposeImg.style.display = "flex";
+});
+
+skipImgBtn.addEventListener("click", () => {
+  if (!message.body) {
+    popUp({
+      title: "Impossível Pular",
+      body: "Você não pode enviar uma mensagem vazia, adicione uma imagem ou volte à etapa anterior.",
+      type: "error",
+    });
+
+    return;
+  }
+
+  if (message.imgType || message.imgBase64) {
+    message.imgType = undefined;
+    message.imgBase64 = undefined;
+  }
+
+  msgComposeImg.style.display = "none";
+  msgConfirmContacts.style.display = "flex";
+
+  console.log(message);
+});
+
+selectImgBtn.addEventListener("change", () => {
+  popUp({
+    title: "Imagem Selecionada",
+    body: `<span class="bold">${selectImgBtn.files[0].name}</span> adicionada à mensagem.`,
+  });
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    message.imgType = e.target.result.split(":", 2)[1].split(";", 1)[0];
+    message.imgBase64 = e.target.result.split(",", 2)[1];
+  };
+
+  reader.readAsDataURL(selectImgBtn.files[0]);
+
+  msgComposeImg.style.display = "none";
+  msgConfirmContacts.style.display = "flex";
+
+  console.log(message);
+});
+
+backToMsgBodyBtn.addEventListener("click", () => {
+  msgComposeImg.style.display = "none";
+  msgComposeBody.style.display = "flex";
+});
+
+backToMsgImgBtn.addEventListener("click", () => {
+  msgConfirmContacts.style.display = "none";
+  msgComposeImg.style.display = "flex";
 });
 
 // toggle header menus' visibility
