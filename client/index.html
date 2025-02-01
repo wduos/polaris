@@ -25,16 +25,13 @@
     <section id="login">
       <form id="login-form" action="">
         <img src="./assets/img/logo_polaris.png" alt="Logomarca da Polaris" />
-        <small
-          >Insira <span class="bold">Usuário</span> e
-          <span class="bold">Senha</span> para entrar no sistema</small
-        >
+        <small class="bold">LOG IN</small>
         <input type="text" placeholder="Usuário" id="login-username-input" />
         <input type="password" placeholder="Senha" id="login-password-input" />
-        <div id="toggle-remember-me">
+        <!-- <div id="toggle-remember-me">
           <span id="fake-checkbox"></span>
           <label for="save-credentials">Guardar dados de Log In</label>
-        </div>
+        </div> -->
         <input type="submit" value="Entrar" id="login-submit-btn" />
       </form>
     </section>
@@ -80,6 +77,27 @@
               <h4>QR Code</h4>
               <h5>Aguarde enquanto recebemos seu código...</h5>
             </div>
+          </div>
+        </div>
+
+        <div id="msg-compose">
+          <button type="button" id="msg-compose-btn">
+            <img src="./assets/icons/msg.svg" alt="ícone de mensagem" />
+            <h4>Nova Mensagem</h4>
+            <h5>Cliqe aqui para começar.</h5>
+          </button>
+
+          <div id="msg-compose-contacts"></div>
+          <div id="msg-compose-img"></div>
+          <div id="msg-compose-body">
+            <textarea
+              id="msg-compose-textarea"
+              class="no-focus"
+              placeholder="Escreva ou cole o texto da sua mensagem aqui..."
+            ></textarea>
+            <button id="msg-compose-body-continue-btn" type="button">
+              Continuar
+            </button>
           </div>
         </div>
       </section>

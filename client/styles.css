@@ -119,10 +119,8 @@ body {
     gap: 1rem;
     width: 400px;
     padding: 1.5rem;
-    border: solid 1px var(--light------);
     border-radius: 1rem;
-    background-color: var(--dark--dim);
-    backdrop-filter: blur(2px);
+    background-color: var(--dark-);
 
     & img {
       height: 2.5rem;
@@ -142,13 +140,14 @@ body {
       width: 100%;
       height: 40px;
       padding-inline: 0.75rem;
-      border: solid 1px var(--light------);
+      border: none;
       border-radius: 0.5rem;
       font-size: 1rem;
     }
 
     & input:not(input[type="submit"]) {
-      background-color: transparent;
+      background-color: var(--dark--);
+      box-shadow: inset 3px 3px 3px var(--dark---);
       color: var(--light-);
     }
 
@@ -576,8 +575,8 @@ main {
     & #qr-container {
       position: relative;
       width: 250px;
+      height: 250px;
       padding: 1.5rem;
-      aspect-ratio: 1/1;
       border-radius: 1rem;
       background-color: var(--light-);
 
@@ -612,6 +611,92 @@ main {
           font-size: 0.75rem;
           line-height: 1rem;
         }
+      }
+    }
+  }
+
+  & #msg-compose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100% - 4.5rem);
+
+    & #msg-compose-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      padding: 1.5rem;
+      border: none;
+      border-radius: 1rem;
+      background-color: transparent;
+      cursor: pointer;
+
+      & h4 {
+        margin-top: 0.2rem;
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+      }
+
+      & h5 {
+        text-align: center;
+        color: var(--light--);
+        font-size: 0.75rem;
+        line-height: 1rem;
+      }
+    }
+
+    & #msg-compose-body {
+      display: none;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1.5rem;
+      width: calc(100% - 161px);
+      height: calc(100% - 161px);
+      max-width: 638px;
+      max-height: 358px;
+      padding: 1.5rem 0.75rem 1.5rem 1.5rem;
+      border: solid 1px var(--light------);
+      border-radius: 1rem;
+
+      & #msg-compose-textarea {
+        width: 100%;
+        height: calc(100% - 40px - 1.5rem);
+        padding-right: 0.75rem;
+        border: none;
+        background-color: transparent;
+        font-size: 1rem;
+        resize: none;
+      }
+
+      & #msg-compose-textarea::-webkit-scrollbar {
+        width: 0.3rem;
+      }
+
+      & #msg-compose-textarea::-webkit-scrollbar-track {
+        background: var(--light------);
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+
+      & #msg-compose-textarea::-webkit-scrollbar-thumb {
+        background: var(--light----);
+        border-radius: 0.5rem;
+        cursor: pointer;
+      }
+
+      & #msg-compose-body-continue-btn {
+        height: 40px;
+        margin-right: 0.75rem;
+        padding-inline: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        background-color: var(--purp-);
+        font-size: 0.88rem;
+        cursor: pointer;
       }
     }
   }

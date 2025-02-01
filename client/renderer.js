@@ -51,7 +51,7 @@ const popUp = ({ title, body, type = "success" }) => {
       popUp.body.innerHTML = "";
       popUp.self.style.visibility = "hidden";
     }, 500);
-  }, 4000);
+  }, 4500);
 
   if (notifications.length >= 3) {
     notifications.shift();
@@ -173,22 +173,28 @@ const sortByName = (array) => {
   return newArray;
 };
 
-// remember me checkbox
-let isRemberMeSelected = false;
-const toggleRememberMeDiv = document.getElementById("toggle-remember-me");
-const fakeCheckbox = document.getElementById("fake-checkbox");
+// // remember me checkbox
+// let isRemberMeSelected = false;
+// const toggleRememberMeDiv = document.getElementById("toggle-remember-me");
+// const fakeCheckbox = document.getElementById("fake-checkbox");
 
-toggleRememberMeDiv.addEventListener("click", () => {
-  if (!isRemberMeSelected) {
-    fakeCheckbox.classList.add("checked");
-    isRemberMeSelected = true;
-  } else {
-    fakeCheckbox.classList.remove("checked");
-    isRemberMeSelected = false;
-  }
-});
+// toggleRememberMeDiv.addEventListener("click", () => {
+//   if (!isRemberMeSelected) {
+//     fakeCheckbox.classList.add("checked");
+//     isRemberMeSelected = true;
+//   } else {
+//     fakeCheckbox.classList.remove("checked");
+//     isRemberMeSelected = false;
+//   }
+// });
 
 // Listens for login attempts in login-screen
+
+// TEMP
+document.getElementById("login-username-input").value = "wduarte";
+document.getElementById("login-password-input").value = "p!ckP0ck37";
+//TEMP
+
 document.getElementById("login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -201,10 +207,42 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
     element: document.getElementById("login-submit-btn"),
   });
 
-  const response = await window.API.loginAttempt(
-    credentials,
-    isRemberMeSelected
-  );
+  if (!credentials.username || !credentials.password) {
+    popUp({
+      title: "Dados Insuficientes",
+      body: "Há campos vazios. Por favor, preencha os campos de usuário e senha para fazer login.",
+      type: "warning",
+    });
+
+    toggleAwaiting({
+      element: document.getElementById("login-submit-btn"),
+      state: "off",
+    });
+
+    return;
+  }
+
+  let response;
+
+  try {
+    response = await window.API.loginAttempt(
+      credentials
+      // isRemberMeSelected
+    );
+  } catch (error) {
+    popUp({
+      title: "Erro Inesperado",
+      body: "Parece que algo não funcionou corretamente, verifique sua conexão e tente novamente.",
+      type: "error",
+    });
+
+    toggleAwaiting({
+      element: document.getElementById("login-submit-btn"),
+      state: "off",
+    });
+
+    return;
+  }
 
   if (response.status === 404 || response.status === 400) {
     popUp({
@@ -289,6 +327,15 @@ window.API.clientReady((user) => {
   userName.innerHTML = localStorage.getItem("username");
   userDeviceName.innerHTML = user.name;
   userNumber.innerHTML = formatPhoneNumber(user.phoneNumber);
+});
+
+// new message composition
+const msgComposeBtn = document.getElementById("msg-compose-btn");
+const msgComposeBody = document.getElementById("msg-compose-body");
+
+msgComposeBtn.addEventListener("click", () => {
+  msgComposeBtn.style.display = "none";
+  msgComposeBody.style.display = "flex";
 });
 
 // toggle header menus' visibility

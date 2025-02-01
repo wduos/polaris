@@ -56,7 +56,7 @@ const createWindow = () => {
       });
 
     if (response.status === 200) {
-      rememberUserCredentials(data);
+      // rememberUserCredentials(data);
       initClient(win);
     }
 
@@ -129,27 +129,32 @@ const createWindow = () => {
 const initClient = (win) => {
   client = new Client();
 
-  client.on("qr", (qr) => {
-    win.webContents.send("qr-code", qr);
+  // TEMP
+  client.once("qr", () => {
+    win.webContents.send("client-ready", { name: "temp", phoneNumber: "temp" });
   });
 
-  client.on("ready", async () => {
-    let user;
-    const contacts = await client.getContacts();
+  // client.on("qr", (qr) => {
+  //   win.webContents.send("qr-code", qr);
+  // });
 
-    contacts.forEach((contact) => {
-      if (contact.isMe) {
-        if (contact.id.server === "c.us") {
-          user = {
-            name: contact.pushname,
-            phoneNumber: contact.number,
-          };
-        }
-      }
-    });
+  // client.on("ready", async () => {
+  //   let user;
+  //   const contacts = await client.getContacts();
 
-    win.webContents.send("client-ready", user);
-  });
+  //   contacts.forEach((contact) => {
+  //     if (contact.isMe) {
+  //       if (contact.id.server === "c.us") {
+  //         user = {
+  //           name: contact.pushname,
+  //           phoneNumber: contact.number,
+  //         };
+  //       }
+  //     }
+  //   });
+
+  //   win.webContents.send("client-ready", user);
+  // });
 
   client.initialize();
 };
